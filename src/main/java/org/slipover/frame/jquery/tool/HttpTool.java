@@ -11,6 +11,10 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+/**
+ * 对 http 请求进行封装
+ * @author slipover
+ */
 @SuppressWarnings("unchecked")
 public interface HttpTool {
 

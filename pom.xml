@@ -13,6 +13,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.slipover.frame</groupId>
+            <artifactId>share</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -24,6 +29,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>5.1.5.RELEASE</version>
+            <optional>true</optional>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>

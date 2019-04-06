@@ -2,9 +2,12 @@ package org.slipover.frame.jquery;
 
 import org.slipover.frame.jquery.core.$Optional;
 import org.slipover.frame.jquery.core.BeanContainer;
+import org.slipover.frame.jquery.tool.EncryptionTool;
+import org.slipover.frame.jquery.tool.FunctionTool;
 import org.slipover.frame.jquery.tool.HttpTool;
 import org.slipover.frame.jquery.tool.ObjectTool;
 import org.slipover.frame.jquery.tool.RandomTool;
+import org.slipover.frame.jquery.tool.ThrowTool;
 
 /**
  * 模仿 js 的 jquery 对 java 的 bean 进行操作
@@ -12,7 +15,7 @@ import org.slipover.frame.jquery.tool.RandomTool;
  * @author slipover
  * @version 1.0
  */
-public final class JQuery implements ObjectTool, RandomTool, HttpTool {
+public final class JQuery implements ObjectTool, RandomTool, HttpTool, ThrowTool, EncryptionTool, FunctionTool {
 
     public final static JQuery $ = new JQuery();
 

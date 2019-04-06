@@ -177,10 +177,18 @@ public class $Optional<T> {
     }
 
     /**
+     * 得到 java.util.Optional 包装对象
+     * @return
+     */
+    public Optional<T> optional() {
+        return Optional.ofNullable(value);
+    }
+
+    /**
      * 将 对象 转为JSON字符串
      * @return
      */
-    public String toJSONString(){
+    public String toJSONString() {
         return JSON.toJSONString(Objects.requireNonNull(value, "No value $Present"));
     }
 
