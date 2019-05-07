@@ -1,7 +1,8 @@
-package org.slipover.frame.jquery.core;
+package org.slipover.frame.jquery.extend;
 
 import com.alibaba.fastjson.JSON;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
  * PS：由于 java.util.Optional 无法继承，copy java.util.Optional 实现
  */
 @SuppressWarnings("unchecked")
-public class $Optional<T> {
+public class $Optional<T> implements Serializable {
 
     /**
      * @see Optional#EMPTY

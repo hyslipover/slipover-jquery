@@ -5,8 +5,6 @@ import org.slipover.frame.share.exception.ServerError;
 import org.slipover.frame.share.exception.ServerException;
 import org.slipover.frame.share.exception.ServerVerifyError;
 
-import java.util.function.Consumer;
-
 public interface ThrowTool {
 
     /**

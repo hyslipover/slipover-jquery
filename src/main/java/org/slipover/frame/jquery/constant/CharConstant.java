@@ -7,6 +7,18 @@ public final class CharConstant {
 
     private CharConstant(){ }
 
+    public static final String EMPTY = "";
+
+    public static final String YMD = "YYYYMMdd";
+
+    public static final String Y_M_D = "YYYY-MM-dd";
+
+    public static final String H_M_S = "HH:mm:ss";
+
+    public static final String YMDHMS = "YYYYMMddHHmmss";
+
+    public static final String Y_M_D_H_M_S = "YYYY-MM-dd HH:mm:ss";
+
     public static final char[] NUMBER = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     public static final char[] LOWER_LETTER = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};

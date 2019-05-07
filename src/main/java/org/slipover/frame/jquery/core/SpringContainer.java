@@ -6,7 +6,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class BeanContainer implements ApplicationContextAware, BeanFactoryAware {
+public class SpringContainer implements ApplicationContextAware, BeanFactoryAware {
 
     private static ApplicationContext applicationContext;
 
@@ -26,12 +26,12 @@ public class BeanContainer implements ApplicationContextAware, BeanFactoryAware 
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        BeanContainer.applicationContext = applicationContext;
+        SpringContainer.applicationContext = applicationContext;
     }
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        BeanContainer.beanFactory = beanFactory;
+        SpringContainer.beanFactory = beanFactory;
     }
 
 }

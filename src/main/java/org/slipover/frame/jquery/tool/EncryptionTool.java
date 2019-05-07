@@ -4,9 +4,11 @@ import org.slipover.frame.jquery.extend.encryption.impl.AesEncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.Base64EncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.DESedeEncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.DesEncryptionImpl;
+import org.slipover.frame.jquery.extend.encryption.impl.DhEncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.HmacEncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.Md5EncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.PbeEncryptionImpl;
+import org.slipover.frame.jquery.extend.encryption.impl.RsaEncryptionImpl;
 import org.slipover.frame.jquery.extend.encryption.impl.ShaEncryptionImpl;
 
 /**
@@ -42,5 +44,7 @@ public interface EncryptionTool {
     /**
      * 非对称加密
      */
+    DhEncryptionImpl DH = new DhEncryptionImpl();
 
+    RsaEncryptionImpl RSA = new RsaEncryptionImpl();
 }
