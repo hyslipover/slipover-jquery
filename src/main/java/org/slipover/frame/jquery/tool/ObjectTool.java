@@ -1,7 +1,17 @@
 package org.slipover.frame.jquery.tool;
 
 import com.alibaba.fastjson.JSON;
+import org.slipover.frame.jquery.extend.$Optional;
+import org.springframework.objenesis.ObjenesisBase;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +49,73 @@ public interface ObjectTool {
     }
 
     /**
-     * 对象有意义
-     * @param obj
+     * 所有对象无意义
+     * @see ObjectTool#isEmpty(java.lang.Object)
+     * @param objs
      * @return
      */
-    default boolean isNotEmpty(Object obj) {
-        return !isEmpty(obj);
+    default boolean isAllEmpty(Object... objs) {
+        if (objs == null || objs.length == 0) {
+            return true;
+        }
+        for (Object obj : objs) {
+            if (!isEmpty(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 所有对象有意义
+     * @see ObjectTool#isEmpty(java.lang.Object)
+     * @param objs
+     * @return
+     */
+    default boolean nonEmpty(Object... objs) {
+        if (objs == null || objs.length == 0) {
+            return false;
+        }
+        for (Object obj : objs) {
+            if (isEmpty(obj)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 是否都是空
+     * @param objs
+     * @return
+     */
+    default boolean isAllNull(Object... objs) {
+        if (objs == null || objs.length == 0) {
+            return true;
+        }
+        for (Object obj : objs) {
+            if (obj != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 是否都不为空
+     * @param objs
+     * @return
+     */
+    default boolean nonNull(Object... objs) {
+        if (objs == null || objs.length == 0) {
+            return false;
+        }
+        for (Object obj : objs) {
+            if (obj == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -109,6 +180,61 @@ public interface ObjectTool {
      */
     default void each(Object obj, BiConsumer<String, Object> biConsumer) {
         JSON.parseObject(JSON.toJSONString(Objects.requireNonNull(obj)), Map.class).forEach(biConsumer);
+    }
+
+    /**
+     * 将对象转成json
+     * @param obj
+     * @return
+     */
+    default String toJSONString(Object obj) {
+        return JSON.toJSONString(obj);
+    }
+
+    /**
+     * 返回序列化结果
+     * @return
+     */
+    default String toSerializable(Serializable serializable) {
+        if (serializable == null) {
+            return null;
+        }
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+             ObjectOutputStream objectOutput = new ObjectOutputStream(outputStream)) {
+            objectOutput.writeObject(serializable);
+            return outputStream.toString(StandardCharsets.ISO_8859_1);
+        } catch (Exception ignored) { }
+        return serializable.toString();
+    }
+
+    /**
+     * 将字符串转化成对象
+     * @param str
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    default <T> T toObject(String str, Class<T> clazz) {
+        if (str == null || clazz == null) {
+            return null;
+        }
+        if (JSON.isValid(str)) {
+            return JSON.parseObject(str, clazz);
+        }
+        try (ByteArrayInputStream inputStream = new ByteArrayInputStream(str.getBytes(StandardCharsets.ISO_8859_1));
+             ObjectInputStream objectInput = new ObjectInputStream(inputStream)) {
+            Object obj = objectInput.readObject();
+            if (obj != null) {
+                if (obj.getClass().equals(clazz)) {
+                    return (T) obj;
+                }
+                return JSON.parseObject(toJSONString(obj), clazz);
+            }
+        } catch (Exception ignored) { }
+        try {
+            return clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception ignored) { }
+        return null;
     }
 
 }

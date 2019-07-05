@@ -4,6 +4,7 @@ import org.slipover.frame.jquery.extend.$Optional;
 import org.slipover.frame.jquery.core.SpringContainer;
 import org.slipover.frame.jquery.tool.AsyncTool;
 import org.slipover.frame.jquery.tool.EncryptionTool;
+import org.slipover.frame.jquery.tool.PropertiesTool;
 import org.slipover.frame.jquery.tool.TryTool;
 import org.slipover.frame.jquery.tool.HttpTool;
 import org.slipover.frame.jquery.tool.LockTool;
@@ -17,7 +18,7 @@ import org.slipover.frame.jquery.tool.ThrowTool;
  * @author slipover
  * @version 1.0
  */
-public final class JQuery implements ObjectTool, RandomTool, HttpTool, ThrowTool, EncryptionTool, TryTool, LockTool, AsyncTool {
+public final class JQuery implements ObjectTool, RandomTool, HttpTool, ThrowTool, EncryptionTool, TryTool, LockTool, AsyncTool, PropertiesTool {
 
     public final static JQuery $ = new JQuery();
 

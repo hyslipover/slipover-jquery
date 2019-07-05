@@ -1,8 +1,18 @@
 package org.slipover.frame.jquery.extend;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.util.StringUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -186,11 +196,64 @@ public class $Optional<T> implements Serializable {
     }
 
     /**
+     * 是否可以序列化
+     * @return
+     */
+    public boolean isSerializable(){
+        return value instanceof Serializable;
+    }
+
+    /**
+     * 如果可以序列化返回序列化结果，否则返回toString
+     * @return
+     */
+    public String toSerializable() {
+        if (isSerializable()) {
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); ObjectOutputStream objectOutput = new ObjectOutputStream(outputStream)) {
+                objectOutput.writeObject(get());
+                return outputStream.toString();
+            } catch (Exception ignored) { }
+        }
+        return get().toString();
+    }
+
+    /**
      * 将 对象 转为JSON字符串
      * @return
      */
     public String toJSONString() {
-        return JSON.toJSONString(Objects.requireNonNull(value, "No value $Present"));
+        return JSON.toJSONString(get());
+    }
+
+    /**
+     * 将 对象 转为JSONObject
+     * @return
+     */
+    public JSONObject toJSONObject() {
+        return JSON.parseObject(toJSONString());
+    }
+
+    public String toGetParam() {
+        JSONObject jsonObject = toJSONObject();
+        if (jsonObject.size() > 0) {
+            StringBuilder builder = new StringBuilder("?");
+            for (Field field : get().getClass().getDeclaredFields()) {
+                String fieldName = field.getName();
+                if (field.isAnnotationPresent(JSONField.class)) {
+                    JSONField jsonField = field.getAnnotation(JSONField.class);
+                    if (!StringUtils.isEmpty(jsonField.name().trim())) {
+                        fieldName = jsonField.name().trim();
+                    }
+                }
+                if (jsonObject.containsKey(fieldName)) {
+                    Object value = jsonObject.get(fieldName);
+                    String param = URLEncoder.encode(value.toString(), StandardCharsets.UTF_8);
+                    builder.append(fieldName).append("=").append(param).append("&");
+                }
+            }
+            return builder.substring(0, builder.length() - 1);
+        }
+        return "";
     }
 
 }
